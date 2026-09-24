@@ -9,8 +9,8 @@
   var SUGGESTIONS = [
     "Quelle est la paracha de la semaine ?",
     "Que dit Berakhot 2a sur le Chema du soir ?",
-    "Horaires de Chabbat a Paris",
-    "Que dit le Kitsour sur la netilat yadaim du matin ?",
+    "Horaires de Chabbat à Paris",
+    "Que dit le Kitsour sur la netilat yadaïm du matin ?",
   ];
 
   // ---------- styles ----------
@@ -107,14 +107,14 @@
 
   var btn = document.createElement("button");
   btn.id = "ct-btn"; btn.type = "button";
-  btn.setAttribute("aria-label", "Ouvrir le chat d etude");
+  btn.setAttribute("aria-label", "Ouvrir le chat d’étude");
   btn.innerHTML = ICO.chat + "<span>Poser une question</span>";
 
   var p = document.createElement("div");
   p.id = "ct-p"; p.setAttribute("role", "dialog"); p.setAttribute("aria-label", "Chat d etude");
   p.innerHTML =
     '<div id="ct-h"><div class="ct-pt">ב</div><div><b>Une question sur un texte ?</b>' +
-    "<small>Reponses fondees sur les sources</small></div><div class=sp></div>" +
+    "<small>Réponses fondées sur les sources</small></div><div class=sp></div>" +
     '<button id="ct-raz" title="Effacer la conversation" aria-label="Effacer">' + ICO.raz + "</button>" +
     '<button id="ct-x" title="Fermer" aria-label="Fermer">' + ICO.x + "</button></div>" +
     '<div id="ct-m"></div>' +
@@ -230,7 +230,7 @@
         b.appendChild(cp);
         hist.push({ role: "user", texte: q }, { role: "assistant", texte: x.d.reponse });
       })
-      .catch(function () { att.remove(); bulle("ct-err", "Connexion impossible. Reessayez."); })
+      .catch(function () { att.remove(); bulle("ct-err", "Connexion impossible. Réessayez."); })
       .finally(function () { GO.disabled = false; I.focus(); });
   }
 })();
