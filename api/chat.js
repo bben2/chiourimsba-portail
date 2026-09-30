@@ -356,6 +356,11 @@ module.exports = async (req, res) => {
     });
     const df = fin.ok ? await fin.json() : {};
     const texteFin = (df?.candidates?.[0]?.content?.parts || []).filter((p) => !p.thought).map((p) => p.text || "").join("").trim();
+    if (!texteFin) {   // quota épuisé au dernier appel : Gemma répond avec sa propre recherche
+      console.error("gemini", fin.status, MODELES[m], "synthese vide");
+      const g = await repondreGemma(question, cle);
+      if (g) return res.status(200).json(g);
+    }
     return res.status(200).json({ reponse: texteFin || "Recherche trop longue. Reformulez plus precisement.", sources, tours, modele: MODELES[m] });
   } catch (e) {
     return res.status(500).json({ erreur: "Erreur interne.", detail: String(e.message).slice(0, 160) });
