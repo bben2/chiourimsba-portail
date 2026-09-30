@@ -320,7 +320,12 @@ module.exports = async (req, res) => {
       const appels = parts.filter((p) => p.functionCall);
 
       if (!appels.length) {
-        const texte = parts.map((p) => p.text || "").join("").trim();
+        const texte = parts.filter((p) => !p.thought).map((p) => p.text || "").join("").trim();
+        if (!texte) {   // réponse vide (modèle lite) : Gemma répond avec sa propre recherche
+          console.error("gemini", MODELES[m], "reponse vide", d?.candidates?.[0]?.finishReason);
+          const g = await repondreGemma(question, cle);
+          if (g) return res.status(200).json(g);
+        }
         return res.status(200).json({ reponse: texte || "Je n'ai pas trouve de reponse fondee sur un texte.", sources, tours, modele: MODELES[m] });
       }
 
