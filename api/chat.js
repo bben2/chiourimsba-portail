@@ -25,7 +25,7 @@ function quotaIp(ip) {
   const e = vus.get(ip) || { min: [], jour: j, n: 0 };
   if (e.jour !== j) { e.jour = j; e.n = 0; }
   e.min = e.min.filter((x) => t - x < 60000);
-  if (e.min.length >= PAR_IP_MIN) return "Trop de questions d'affilee. Reessayez dans une minute.";
+  if (e.min.length >= PAR_IP_MIN) return "Trop de questions d'affilée. Réessayez dans une minute.";
   if (e.n >= PAR_IP_JOUR) return "Vous avez atteint la limite de questions pour aujourd'hui.";
   e.min.push(t); e.n++; vus.set(ip, e);
   return null;
@@ -261,7 +261,7 @@ module.exports = async (req, res) => {
   if (req.method !== "POST") return res.status(405).json({ erreur: "POST attendu" });
 
   const cle = process.env.GEMINI_API_KEY;
-  if (!cle) return res.status(500).json({ erreur: "Chat non configure." });
+  if (!cle) return res.status(500).json({ erreur: "Chat non configuré." });
 
   const ip = (req.headers["x-forwarded-for"] || "").split(",")[0].trim() || "?";
   const stop = quotaIp(ip);
@@ -326,7 +326,7 @@ module.exports = async (req, res) => {
           const g = await repondreGemma(question, cle);
           if (g) return res.status(200).json(g);
         }
-        return res.status(200).json({ reponse: texte || "Je n'ai pas trouve de reponse fondee sur un texte.", sources, tours, modele: MODELES[m] });
+        return res.status(200).json({ reponse: texte || "Je n'ai pas trouvé de réponse fondée sur un texte.", sources, tours, modele: MODELES[m] });
       }
 
       messages.push({ role: "model", parts });
@@ -367,7 +367,7 @@ module.exports = async (req, res) => {
       const g = await repondreGemma(question, cle);
       if (g) return res.status(200).json(g);
     }
-    return res.status(200).json({ reponse: texteFin || "Recherche trop longue. Reformulez plus precisement.", sources, tours, modele: MODELES[m] });
+    return res.status(200).json({ reponse: texteFin || "Recherche trop longue. Reformulez plus précisément.", sources, tours, modele: MODELES[m] });
   } catch (e) {
     return res.status(500).json({ erreur: "Erreur interne.", detail: String(e.message).slice(0, 160) });
   }

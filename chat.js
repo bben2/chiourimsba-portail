@@ -111,10 +111,10 @@
   btn.innerHTML = ICO.chat + "<span>Poser une question</span>";
 
   var p = document.createElement("div");
-  p.id = "ct-p"; p.setAttribute("role", "dialog"); p.setAttribute("aria-label", "Chat d etude");
+  p.id = "ct-p"; p.setAttribute("role", "dialog"); p.setAttribute("aria-label", "Chat d’étude");
   p.innerHTML =
     '<div id="ct-h"><div class="ct-pt">ב</div><div><b>Une question sur un texte ?</b>' +
-    "<small>Réponses fondées sur les sources</small></div><div class=sp></div>" +
+    "<small>Version bêta · réponses fondées sur les sources</small></div><div class=sp></div>" +
     '<button id="ct-raz" title="Effacer la conversation" aria-label="Effacer">' + ICO.raz + "</button>" +
     '<button id="ct-x" title="Fermer" aria-label="Fermer">' + ICO.x + "</button></div>" +
     '<div id="ct-m"></div>' +
@@ -169,7 +169,9 @@
   function accueil() {
     M.innerHTML = "";
     var d = bulle("ct-r", "<p>Posez une question sur un verset, une guemara, une halakha, une paracha ou un horaire. " +
-      "Chaque reponse s appuie sur les textes, avec leurs references.</p>");
+      "Chaque réponse s’appuie sur les textes, avec leurs références.</p>" +
+      "<p><b>Version bêta.</b> Les réponses sont rédigées par une intelligence artificielle et peuvent contenir des erreurs : " +
+      "vérifiez toujours les sources indiquées. Pour une question de halakha pratique, adressez-vous à un Rav.</p>");
     var sg = document.createElement("div"); sg.id = "ct-sg";
     SUGGESTIONS.forEach(function (s) {
       var b = document.createElement("button");
@@ -224,7 +226,7 @@
         cp.className = "ct-cp"; cp.type = "button"; cp.textContent = "Copier";
         cp.onclick = function () {
           navigator.clipboard.writeText(x.d.reponse).then(function () {
-            cp.textContent = "Copie"; setTimeout(function () { cp.textContent = "Copier"; }, 1600);
+            cp.textContent = "Copié"; setTimeout(function () { cp.textContent = "Copier"; }, 1600);
           });
         };
         b.appendChild(cp);
