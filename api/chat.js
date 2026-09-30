@@ -276,7 +276,7 @@ module.exports = async (req, res) => {
   for (const t of (corps?.historique || []).slice(-4)) {
     if (t?.role && t?.texte) messages.push({ role: t.role === "assistant" ? "model" : "user", parts: [{ text: String(t.texte).slice(0, 1500) }] });
   }
-  messages.push({ role: "user", parts: [{ text: question }] });
+  messages.push({ role: "user", parts: [{ text: `${question}\n\n(Reponse en francais.)` }] });
 
   if (corps?.essai === "modeles") {
     const d = await (await fetch(`https://generativelanguage.googleapis.com/v1beta/models?pageSize=200&key=${cle}`)).json();
@@ -346,7 +346,7 @@ module.exports = async (req, res) => {
       messages.push({ role: "user", parts: reponses });
     }
     // Recherches epuisees : un dernier appel sans outils pour repondre avec ce qui a deja ete lu.
-    messages.push({ role: "user", parts: [{ text: "Reponds maintenant a la question avec les textes deja lus, sans nouvelle recherche. Termine par les sources." }] });
+    messages.push({ role: "user", parts: [{ text: "Reponds maintenant EN FRANCAIS a la question avec les textes deja lus, sans nouvelle recherche. Termine par les sources." }] });
     const fin = await fetch(url(m), {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
