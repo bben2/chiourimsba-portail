@@ -59,7 +59,7 @@ async function traductionsChercher({ requete, limite }) {
     return {
       total: lignes.length,
       resultats: lignes.map((x) => ({
-        reference: x.collection === "guemara" ? x.ref : `${x.oeuvre_titre}, ${x.ref}`,
+        reference: x.collection === "guemara" ? x.ref : x.titre || `${x.oeuvre_titre}, ${x.ref}`,
         ouvrage: x.oeuvre_titre, titre: x.titre, extrait: (x.texte || "").slice(0, 900), url: x.url,
         type: x.collection === "guemara" ? "guemara" : "livre",
       })),
