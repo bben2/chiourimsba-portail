@@ -228,7 +228,7 @@ async function repondreGemma(question, cle) {
   const sources = [], extraits = [];
   for (const x of corp.resultats) {
     extraits.push(`[${x.reference}] (${x.url}) ${x.extrait}`);
-    sources.push({ ref: x.reference, url: x.url });
+    if (!sources.some((s) => s.url === x.url)) sources.push({ ref: x.reference, url: x.url });
   }
   for (const x of sef.resultats) {
     if (!x.ref) continue;
