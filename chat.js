@@ -87,6 +87,8 @@
     "#ct-i{flex:1;border:1px solid #e2ddd2;border-radius:11px;padding:9px 12px;font:inherit;resize:none;",
     "max-height:104px;background:#faf8f3;color:inherit}",
     "#ct-i:focus{outline:none;border-color:#b8860b;background:#fff}",
+    // Sous 16 px, iOS zoome sur le champ et la page reste décalée après l'envoi.
+    "@media (pointer:coarse){#ct-i{font-size:16px}}",
     "#ct-go{background:#b8860b;color:#fffdf8;border:none;border-radius:11px;width:38px;height:38px;",
     "cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none;transition:background .15s}",
     "#ct-go:hover:not(:disabled){background:#9c7209}",
