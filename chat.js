@@ -263,7 +263,8 @@
   var KEY = "chiourimsba.espace.v1";
   var PAGE = location.pathname.replace(/\.html$/, "");
   var h1 = document.querySelector("h1");
-  var TITRE = ((h1 && h1.textContent) || document.title || "").replace(/\s+/g, " ").trim();
+  // La référence suffit (« Sukkah 33a ») : le sous-titre après « — » alourdirait la question.
+  var TITRE = ((h1 && h1.textContent) || document.title || "").replace(/\s+/g, " ").trim().split(/\s+[—–]\s+/)[0];
   var rafraichir = []; // fonctions qui resynchronisent l'affichage de la page avec le stockage
 
   function lire() {
