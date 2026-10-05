@@ -4,7 +4,7 @@
   if (window.__bandeauAppli) return;
   window.__bandeauAppli = 1;
   var IOS = "https://apps.apple.com/fr/app/chiourims-torah/id6816099984";
-  var ANDROID = null; // lien Google Play quand l'appli y sera publique
+  var ANDROID = "https://chiourimsba.vercel.app/android/"; // téléchargement direct (choix VBA 05/10/2026), Google Play plus tard
   var CLE = "bandeau-appli-ferme", DUREE = 14 * 864e5;
 
   var ua = navigator.userAgent;
