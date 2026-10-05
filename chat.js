@@ -3,6 +3,9 @@
 (function () {
   if (window.__chatTorah) return;
   window.__chatTorah = 1;
+  var bandeau = document.createElement("script");   // bandeau « Télécharger l'application »
+  bandeau.src = "https://chiourimsba.vercel.app/bandeau.js"; bandeau.defer = true;
+  document.head.appendChild(bandeau);
   var API = "https://chiourimsba.vercel.app/api/chat";
   var hist = [];
 
