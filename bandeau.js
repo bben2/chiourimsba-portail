@@ -12,9 +12,10 @@
   // sauf navigateurs intégrés des réseaux sociaux, où le bandeau est utile.
   var vueWeb = (/AppleWebKit/.test(ua) && !/Safari\//.test(ua)) || /; wv\)/.test(ua);
   if (vueWeb && !/Instagram|FBAN|FBAV|FB_IAB|LinkedIn|Twitter/.test(ua)) return;
-  var android = /Android/.test(ua);
-  var lien = android ? ANDROID : IOS;
-  if (!lien) return;
+  var android = /Android/.test(ua), ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && "ontouchend" in document);
+  // iPhone/iPad : App Store ; Android : téléchargement direct ; ordinateur : les deux (VBA 06/10/2026)
+  var liens = android ? [["Télécharger l'application", ANDROID]] : ios ? [["Télécharger l'application", IOS]]
+            : [["iPhone et iPad", IOS], ["Android", ANDROID]];
   try { if (Date.now() - (+localStorage.getItem(CLE) || 0) < DUREE) return; } catch (e) {}
 
   var css = document.createElement("style");
@@ -36,16 +37,20 @@
   b.setAttribute("aria-label", "Application Chiourims Torah");
   var t = document.createElement("span");
   t.textContent = android ? "L'application gratuite Chiourims Torah est disponible sur Android."
-                          : "L'application gratuite Chiourims Torah est disponible sur iPhone et iPad.";
-  var a = document.createElement("a");
-  a.href = lien; a.target = "_blank"; a.rel = "noopener";
-  a.textContent = "Télécharger l'application";
+               : ios ? "L'application gratuite Chiourims Torah est disponible sur iPhone et iPad."
+               : "L'application gratuite Chiourims Torah est disponible sur iPhone, iPad et Android :";
   var x = document.createElement("button");
   x.type = "button"; x.setAttribute("aria-label", "Fermer"); x.textContent = "×";
   x.onclick = function () {
     b.remove();
     try { localStorage.setItem(CLE, String(Date.now())); } catch (e) {}
   };
-  b.appendChild(t); b.appendChild(a); b.appendChild(x);
+  b.appendChild(t);
+  liens.forEach(function (l) {
+    var a = document.createElement("a");
+    a.href = l[1]; a.target = "_blank"; a.rel = "noopener"; a.textContent = l[0];
+    b.appendChild(a);
+  });
+  b.appendChild(x);
   document.body.insertBefore(b, document.body.firstChild);
 })();
