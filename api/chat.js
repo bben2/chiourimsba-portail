@@ -9,6 +9,7 @@ const MODELES = [process.env.GEMINI_MODEL || "gemini-2.5-flash", "gemini-3.5-fla
 // Dernier recours : Gemma, gratuit avec un quota bien plus large, mais sans outils (le serveur cherche lui-meme).
 const GEMMAS = ["gemma-4-31b-it", "gemma-4-26b-a4b-it"];
 const SEF = "https://www.sefaria.org/api";
+const noter = require("./_stats");
 const UA = { "User-Agent": "chiourimsba/1.0 (+https://chiourimsba.vercel.app)" };
 
 const ORIGINES = [
@@ -291,6 +292,16 @@ module.exports = async (req, res) => {
     const g = await repondreGemma(question, cle);
     return g ? res.status(200).json(g) : res.status(502).json({ erreur: "Gemma indisponible." });
   }
+
+  // Statistiques (VBA 14/10/2026) : chaque réponse ou refus est noté une fois, AVANT l'envoi (Vercel gèle la fonction
+  // après la réponse). Les applis ouvrent le chat du portail : elles comptent comme « chiourimsba.vercel.app ».
+  const debut = Date.now(), envoyer = res.json.bind(res);
+  res.json = async (o) => {
+    await noter("questions", { origine: (origine || "?").replace(/^https?:\/\//, "").slice(0, 100), question,
+      reponse: String(o?.reponse || o?.erreur || "").slice(0, 2000), statut: res.statusCode,
+      modele: String(o?.modele || "").slice(0, 60), duree_ms: Date.now() - debut });
+    return envoyer(o);
+  };
 
   const url = (m) => `https://generativelanguage.googleapis.com/v1beta/models/${MODELES[m]}:generateContent?key=${cle}`;
   const sources = [];
