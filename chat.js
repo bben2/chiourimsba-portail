@@ -3,6 +3,13 @@
 (function () {
   if (window.__chatTorah) return;
   window.__chatTorah = 1;
+  try {   // mesure d'audience sans cookie : une ligne par page vue (api/vu.js) ; rien n'est stocké sur l'appareil
+    if (navigator.sendBeacon && navigator.doNotTrack !== "1") {
+      var src = new URLSearchParams(location.search).get("src") || "";
+      var ref = document.referrer ? new URL(document.referrer).host : "";
+      navigator.sendBeacon("https://chiourimsba.vercel.app/api/vu", JSON.stringify({ page: location.pathname, src: src, ref: ref }));
+    }
+  } catch (e) {}
   var bandeau = document.createElement("script");   // bandeau « Télécharger l'application »
   bandeau.src = "https://chiourimsba.vercel.app/bandeau.js"; bandeau.defer = true;
   document.head.appendChild(bandeau);
